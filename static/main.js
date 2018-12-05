@@ -81,9 +81,53 @@ $(document).ready(function(){
     gethitokoto();
     setTimeout(function(){$(".loading").hide();},1500);
 });
-
+//进度条函数
+(function($){
+	'use strict';
+	$.fn.LineProgressbar = function(options){
+		var options = $.extend({
+			percentage : null,
+			ShowProgressCount: true,
+			duration: 1000,
+			fillBackgroundColor: '#3498db',
+			backgroundColor: '#EEEEEE',
+			radius: '0px',
+			height: '10px',
+			width: '100%'
+		},options);
+		return this.each(function(index, el) {
+			$(el).html('<div class="progressbar"><div class="proggress"></div><div class="percentCount"></div></div>');
+			var progressFill = $(el).find('.proggress');
+			var progressBar= $(el).find('.progressbar');
+			progressFill.css({
+				backgroundColor : options.fillBackgroundColor,
+				height : options.height,
+				borderRadius: options.radius
+			});
+			progressBar.css({
+				width : options.width,
+				backgroundColor : options.backgroundColor,
+				borderRadius: options.radius
+			});
+			progressFill.animate(
+				{
+					width: options.percentage + "%"
+				},
+				{	
+					step: function(x) {
+						if(options.ShowProgressCount){
+							$(el).find(".percentCount").text(Math.round(x) + "%");
+						}
+					},
+					duration: options.duration
+				}
+			);
+		});
+	}
+})(jQuery);
+//设置进度条
 $(function(){ 
     $('#all').LineProgressbar({ 
-        percentage: 80 
+        percentage: 60
     }); 
 }) 
